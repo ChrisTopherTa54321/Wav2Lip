@@ -254,7 +254,8 @@ def main(args):
         subprocess.call(command, shell=platform.system() != 'Windows')
 
 
-def parseArgs():
+def getArgParser():
+
     parser = argparse.ArgumentParser(description='Inference code to lip-sync videos in the wild using Wav2Lip models')
 
     parser.add_argument('--checkpoint_path', type=str,
@@ -296,8 +297,11 @@ def parseArgs():
 
     parser.add_argument('--nosmooth', default=False, action='store_true',
                         help='Prevent smoothing face detections over a short temporal window')
+    return parser
 
-    args = parser.parse_args()
+
+def parseArgs(args = None):
+    args = getArgParser().parse_args(args)
     args.img_size = 96
 
     if os.path.isfile(args.face) and args.face.split('.')[1] in ['jpg', 'png', 'jpeg']:
